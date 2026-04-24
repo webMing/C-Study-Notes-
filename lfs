@@ -1,0 +1,22 @@
+####LFS 构建过程中每一步到底在干什么？
+
+一、先给你一个全局理解（最重要）
+
+👉 LFS 本质在做三件事：
+
+1. 造工具（编译器、链接器）
+2. 用工具造系统（bash、coreutils…）
+3. 让系统能自己启动（kernel + init）
+
+二、核心问题：为什么不能直接编译系统？
+
+大概流程：
+
+1. 宿主 gcc → 编译 binutils (pass1)
+2. 宿主 gcc → 编译 gcc (pass1) （半成品 gcc，功能完整的gcc需要glibc）
+3. gcc (pass1) → 编译 glibc
+4. glibc + gcc → 重编 gcc (pass2)
+5. 新 gcc → 重编 binutils (pass2)
+
+
+https://www.linuxfromscratch.org/lfs/
